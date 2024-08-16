@@ -1,0 +1,22 @@
+# Molecular dynamics configuration
+
+# Initial structure
+xyz: "path/to/initial/structure.xyz"
+
+# Simulation parameters
+dt: 20  # Time step in atomic units of time
+timesteps: 100  # Total number of simulation steps
+
+# Potential parameters
+potential:
+  type: "lennard_jones"
+  sigma: 1.0
+  epsilon: 1.0
+
+# Output settings
+output:
+  path: "path/to/output/directory"
+  frequency: 1  # Write trajectory every N steps
+
+# Device settings
+device: "auto"  # "auto", "cpu", or "cuda"
