@@ -1,8 +1,10 @@
+from typing import List
+
 import torch
-from ase.io import write
+import yaml
 from ase import Atoms
 from ase.calculators.calculator import SinglePointCalculator
-import yaml
+from ase.io import write
 
 
 class BOMD:
@@ -64,7 +66,7 @@ class BOMD:
         """
         Call the potential energy calculator
 
-        !!! warning 
+        !!! warning
             Using dummy Lennard-Jones potential for now
         """
         energy, forces = self.lj_potential(self.positions[-1])
@@ -98,7 +100,7 @@ class BOMD:
 
         # Write the extxyz file
         write(
-            self.config["output"]["path"] / f"trajectory.extxyz",
+            self.config["output"]["path"] / "trajectory.extxyz",
             curr_atoms,
             format="extxyz",
         )
