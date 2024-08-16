@@ -1,5 +1,5 @@
 import unittest
-from src.bomd import BOMD
+from fms24.bomd import BOMD
 
 class TestBOMD(unittest.TestCase):
     def setUp(self):

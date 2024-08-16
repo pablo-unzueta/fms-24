@@ -64,8 +64,8 @@ class BOMD:
         """
         Call the potential energy calculator
 
-        !!! warning
-        Using dummy Lennard-Jones potential for now
+        !!! warning 
+            Using dummy Lennard-Jones potential for now
         """
         energy, forces = self.lj_potential(self.positions[-1])
         return energy, forces

@@ -20,3 +20,11 @@ output:
 
 # Device settings
 device: "auto"  # "auto", "cpu", or "cuda"
+
+# ML Potentials
+ml_potentials:
+  - type: "nequip"
+    paths:
+      - {path: "path/to/first/ml/potential", order: 0}
+      - {path: "path/to/second/ml/potential", order: 1}
+      - {path: "path/to/third/ml/potential", order: 2}
