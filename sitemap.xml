@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://pablo-unzueta.github.io/fms-24/</loc>
+         <lastmod>2024-08-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pablo-unzueta.github.io/fms-24/documentation/</loc>
+         <lastmod>2024-08-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pablo-unzueta.github.io/fms-24/examples/</loc>
+         <lastmod>2024-08-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+</urlset>
