@@ -29,9 +29,12 @@ jobs:
       if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       run: poetry install --no-interaction --no-root
 
+    - name: Install project
+      run: poetry install --no-interaction
+
     - name: Run tests with pytest and generate coverage report
       run: |
-        poetry run pytest --cov=./ --cov-report=xml
+        poetry run python -m pytest --cov=src/fms24 --cov-report=xml tests/
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3

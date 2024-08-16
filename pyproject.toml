@@ -1,5 +1,8 @@
 [tool.poetry]
 name = "fms24"
+packages = [
+    { include = "fms24", from = "src" }
+]
 version = "0.1.0"
 description = "\"FMS rewritten in 2024 using PyTorch\""
 authors = ["pablo unzueta <punzu001@ucr.edu>"]
