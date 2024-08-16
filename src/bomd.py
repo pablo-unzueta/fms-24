@@ -25,7 +25,7 @@ class BOMD:
         self.velocities = torch.tensor(atoms.get_velocities(), device=self.device)
         self.atoms_list = atoms.get_chemical_symbols()
         self.dt = config_data["dt"]
-        self.timesteps = config_data["timesteps"]
+        self.timesteps = [0.0]
 
     def update_timestep_info(
         self,
