@@ -3,7 +3,7 @@ from typing import List
 import torch
 import yaml
 from ase import Atoms
-from ase.calculators.calculator import SinglePointCalculator
+from ase.calculators.singlepoint import SinglePointCalculator
 from ase.io import write
 
 
