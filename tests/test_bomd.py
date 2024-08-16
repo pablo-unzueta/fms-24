@@ -1,5 +1,7 @@
 import unittest
+
 from fms24.bomd import BOMD
+
 
 class TestBOMD(unittest.TestCase):
     def setUp(self):
@@ -14,5 +16,6 @@ class TestBOMD(unittest.TestCase):
 
     # Add more test methods as needed
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

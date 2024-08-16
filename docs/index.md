@@ -8,7 +8,7 @@ Recommended installation:
 
 One can also install from github:
 
-`pip install git+https://github.com/fms24/fms24.git`
+`pip install git+https://github.com/pablo-unzueta/fms-24/fms-24.git`
 
 ## Example Usage
 ```python

@@ -1,12 +1,14 @@
-import torch
 from dataclasses import dataclass, field
-from typing import List, Dict
+from typing import Dict, List
+
+import torch
 import yaml
 
 
 @dataclass
 class TBF:
     """A Trajectory Basis Function (TBF)"""
+
     positions: torch.Tensor
     momenta: torch.Tensor
     forces: torch.Tensor
@@ -14,7 +16,8 @@ class TBF:
     amplitude: complex = 1.0 + 0j
 
     def __post_init__(self):
-        """Place Frozen Gaussian Wavepacket in the center of positions and momenta in phase space"""
+        """Place Frozen Gaussian Wavepacket in the center of positions
+        and momenta in phase space"""
         self.positions_com = torch.zeros_like(self.positions)
         self.momenta_com = torch.zeros_like(self.momenta)
 
