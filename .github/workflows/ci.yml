@@ -1,9 +1,9 @@
 name: ci 
 on:
   push:
-    branches:
-      - master 
-      - main
+    tags: # Only deploy on tags
+      - "*"
+
 permissions:
   contents: write
 jobs:
