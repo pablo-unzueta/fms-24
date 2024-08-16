@@ -12,6 +12,8 @@ ase = "^3.22.1"
 torch = "^2.0.1"
 numpy = "^2.0.1"
 pandas = "^1.5.3"
+mypy = "^1.11.1"
+isort = "^5.13.2"
 
 
 [tool.poetry.group.docs.dependencies]
