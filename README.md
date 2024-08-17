@@ -1,4 +1,4 @@
-# FMS24 The FMS code rewritten in Pytorch
+# FMS24 The FMS90 code rewritten in Pytorch
 
 <!-- Add pypi badges later -->
 [![Code Coverage](https://codecov.io/gh/pablo-unzueta/fms-24/branch/main/graph/badge.svg)](https://codecov.io/gh/pablo-unzueta/fms-24)
