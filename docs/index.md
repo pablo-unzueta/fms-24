@@ -13,7 +13,7 @@ One can also install from github:
 ## Example Usage
 Similar to FMS90's `Control.dat`, the `config.yaml` file is used to specify the parameters of the AIMS run.
 
-A tutorial and a full example of a `config.yaml` file can be found in the [examples](examples) directory.
+A tutorial and a full example of a `config.yaml` file can be found in the examples directory.
 
 
 ## Electronic Structure
