@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import List
 
 import torch
@@ -23,12 +24,19 @@ class BOMD:
         with open(self.config, "r") as f:
             config_data = yaml.safe_load(f)
 
+        config_path = Path(self.config)
+        if "xyz" in config_data:
+            xyz_path = config_path.parent / config_data["xyz"]
+            config_data["xyz"] = str(xyz_path.resolve())
+        else:
+            raise ValueError("No xyz file provided")
+
         atoms = read(config_data["xyz"])
         self.positions = torch.tensor(atoms.get_positions(), device=self.device)
         # self.velocities = torch.tensor(atoms.get_velocities(), device=self.device)
         self.atoms_list = atoms.get_chemical_symbols()
         self.dt = config_data["dt"]
-        self.timesteps = [0.0]
+        self.timesteps = config_data["timesteps"]
 
     def update_timestep_info(
         self,

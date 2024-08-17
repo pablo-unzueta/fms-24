@@ -9,4 +9,4 @@ class TestBOMD:
         bomd = BOMD(current_dir / sample_config)
         assert bomd.positions.shape == (2, 3)
         assert bomd.atoms_list == ["H", "H"]
-        assert bomd.timestep == 20
+        assert bomd.timesteps == 100

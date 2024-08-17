@@ -11,9 +11,10 @@ One can also install from github:
 `pip install git+https://github.com/pablo-unzueta/fms-24/fms-24.git`
 
 ## Example Usage
-```python
-{!examples/fake.py!}
-```
+Similar to FMS90's `Control.dat`, the `config.yaml` file is used to specify the parameters of the AIMS run.
+
+A tutorial and a full example of a `config.yaml` file can be found in the [examples](examples) directory.
+
 
 ## Electronic Structure
 Currently, only TeraChem and Q-Chem are supported. If you would like a specific program to be supported, please open an issue.
