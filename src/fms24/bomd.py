@@ -2,43 +2,36 @@ from pathlib import Path
 from typing import List
 
 import torch
-import yaml
 from ase import Atoms
 from ase.calculators.singlepoint import SinglePointCalculator
 from ase.io import read, write
 
 
 class BOMD(torch.nn.Module):
-    def __init__(self, config="config.yaml"):
-        self.config = config
+    def __init__(self, xyz_path: Path, dt: float, timesteps: int):
+        super().__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.xyz_path = xyz_path
+        self.dt = dt
+        self.timesteps = timesteps
         self.atoms = None
-        self.positions = []
-        self.momenta = []
-        self.forces = []
-        self.dts = []
-        self.timesteps = []
+        self.positions: List[torch.Tensor] = []
+        self.momenta: List[torch.Tensor] = []
+        self.forces: List[torch.Tensor] = []
+        self.dts: List[float] = []
         self.atoms_list = None
         self.initialize()
 
     def initialize(self):
-        with open(self.config, "r") as f:
-            config_data = yaml.safe_load(f)
+        if not self.xyz_path.exists():
+            raise ValueError(f"XYZ file not found: {self.xyz_path}")
 
-        config_path = Path(self.config)
-        if "xyz" in config_data:
-            xyz_path = config_path.parent / config_data["xyz"]
-            config_data["xyz"] = str(xyz_path.resolve())
-        else:
-            raise ValueError("No xyz file provided")
-
-        atoms = read(config_data["xyz"])
+        atoms = read(self.xyz_path)
         self.positions.append(torch.tensor(atoms.get_positions(), device=self.device))
-        self.momenta.append(torch.tensor(atoms.get_positions(), device=self.device))
-        self.forces.append(torch.tensor(atoms.get_positions(), device=self.device))
+        self.momenta.append(torch.zeros_like(self.positions[-1]))
+        self.forces.append(torch.zeros_like(self.positions[-1]))
         self.atoms_list = atoms.get_chemical_symbols()
-        self.dt = config_data["dt"]
-        self.timesteps = config_data["timesteps"]
+        self.dts.append(self.dt)
 
     def update_timestep_info(
         self,
@@ -47,7 +40,7 @@ class BOMD(torch.nn.Module):
         forces: torch.Tensor,
         dt: float,
     ):
-        self.positions.append(positions.clone().detach())  # Create a copy of the tensor
+        self.positions.append(positions.clone().detach())
         self.momenta.append(momenta.clone().detach())
         self.forces.append(forces.clone().detach())
         self.dts.append(dt)
@@ -105,7 +98,7 @@ class BOMD(torch.nn.Module):
 
         self.update_timestep_info(new_pos, new_v, new_forces, dt)
 
-    def write_traj_dump(self):
+    def write_traj_dump(self, output_path: Path):
         # Create an ASE Atoms object directly with PyTorch tensors
         curr_atoms = Atoms(
             positions=self.positions[-1].cpu().numpy(),
@@ -123,7 +116,7 @@ class BOMD(torch.nn.Module):
 
         # Write the extxyz file
         write(
-            self.config["output"]["path"] / "trajectory.extxyz",
+            output_path / "trajectory.extxyz",
             curr_atoms,
             format="extxyz",
         )
