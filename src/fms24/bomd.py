@@ -8,14 +8,15 @@ from ase.calculators.singlepoint import SinglePointCalculator
 from ase.io import read, write
 
 
-class BOMD:
+class BOMD(torch.nn.Module):
     def __init__(self, config="config.yaml"):
         self.config = config
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.atoms = None
         self.positions = []
-        self.velocities = []
+        self.momenta = []
         self.forces = []
+        self.dts = []
         self.timesteps = []
         self.atoms_list = None
         self.initialize()
@@ -32,8 +33,9 @@ class BOMD:
             raise ValueError("No xyz file provided")
 
         atoms = read(config_data["xyz"])
-        self.positions = torch.tensor(atoms.get_positions(), device=self.device)
-        # self.velocities = torch.tensor(atoms.get_velocities(), device=self.device)
+        self.positions.append(torch.tensor(atoms.get_positions(), device=self.device))
+        self.momenta.append(torch.tensor(atoms.get_positions(), device=self.device))
+        self.forces.append(torch.tensor(atoms.get_positions(), device=self.device))
         self.atoms_list = atoms.get_chemical_symbols()
         self.dt = config_data["dt"]
         self.timesteps = config_data["timesteps"]
@@ -41,14 +43,26 @@ class BOMD:
     def update_timestep_info(
         self,
         positions: torch.Tensor,
-        velocities: torch.Tensor,
+        momenta: torch.Tensor,
         forces: torch.Tensor,
         dt: float,
     ):
-        self.positions.append(positions)
-        self.velocities.append(velocities)
-        self.forces.append(forces)
-        self.timesteps.append(self.timesteps[-1] + dt if self.timesteps else dt)
+        self.positions.append(positions.clone().detach())  # Create a copy of the tensor
+        self.momenta.append(momenta.clone().detach())
+        self.forces.append(forces.clone().detach())
+        self.dts.append(dt)
+
+    def get_trajectory_tensor(self):
+        return (
+            torch.stack(self.positions),
+            torch.stack(self.momenta),
+            torch.stack(self.forces),
+            torch.tensor(self.dts),
+        )
+
+    @property
+    def trajectory(self):
+        return self.get_trajectory_tensor()
 
     def lj_potential(
         self,
