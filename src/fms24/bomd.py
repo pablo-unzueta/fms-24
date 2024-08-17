@@ -4,7 +4,7 @@ import torch
 import yaml
 from ase import Atoms
 from ase.calculators.singlepoint import SinglePointCalculator
-from ase.io import write
+from ase.io import read, write
 
 
 class BOMD:
@@ -17,14 +17,15 @@ class BOMD:
         self.forces = []
         self.timesteps = []
         self.atoms_list = None
+        self.initialize()
 
     def initialize(self):
         with open(self.config, "r") as f:
             config_data = yaml.safe_load(f)
 
-        atoms = Atoms(config_data["xyz"])
+        atoms = read(config_data["xyz"])
         self.positions = torch.tensor(atoms.get_positions(), device=self.device)
-        self.velocities = torch.tensor(atoms.get_velocities(), device=self.device)
+        # self.velocities = torch.tensor(atoms.get_velocities(), device=self.device)
         self.atoms_list = atoms.get_chemical_symbols()
         self.dt = config_data["dt"]
         self.timesteps = [0.0]
